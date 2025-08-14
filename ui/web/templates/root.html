@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIPM | {{ page_title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/global.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <canvas id="casesChart" width="1000" height="500"></canvas>
+
+    <script>
+        let chart;
+
+        function fetchData() {
+            $.getJSON("/get_data", function(data) {
+                const times = data.times;
+                const datasets = [];
+
+                Object.keys(data.cases).forEach((caseName, idx) => {
+                    const prices = data.cases[caseName].map(x => x.price);
+                    const color = `hsl(${(idx*50)%360}, 70%, 50%)`;
+                    datasets.push({
+                        label: caseName,
+                        data: prices,
+                        borderColor: color,
+                        fill: false,
+                        tension: 0.0
+                    });
+                });
+
+                if (chart) {
+                    chart.data.labels = times;
+                    chart.data.datasets = datasets;
+                    chart.update();
+                } else {
+                    const ctx = document.getElementById('casesChart').getContext('2d');
+                    chart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: times,
+                            datasets: datasets
+                        },
+                        options: {
+                            responsive: true,
+                            animation: false,
+                            plugins: {
+                                legend: { position: 'top' }
+                            },
+                            scales: {
+                                x: { title: { display: true, text: 'Time' } },
+                                y: { title: { display: true, text: 'Price' } }
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        fetchData();
+        setInterval(fetchData, 3000); 
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+:root {
+    --bg: #181818;
+    --bg-accent: #292929;
+    --text: #bbbbbb;
+    --text-accent: #96a6c8;
+    --text-selected: #ffdd33;
+    --text-elem: #73c936;
+}
+
+* {
+    font-family: "Space Mono";
+    color: #bbb;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0 auto;
+    background-color: var(--bg);
+}
+
+#header {
+    position: fixed;
+    font-size: 32px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    height: 15%;
+    background-color: var(--bg-accent);
+    z-index: 1;
+}
+
+a {
+    color: #bbb;
+    text-decoration: none;
+}
+
+#header-cns {
+    transition: .2s;
+    font-size: 64px;
+}
+
+.header-hl {
+    transition: .2s;
+}
+
+.header-hl:hover {
+    color: var(--text-selected);
+    font-size: 48px;
+}
+
+#header-cns:hover {
+    color: var(--text-selected);
+    font-size: 80px;
+}
+
+#container {
+    padding: 0 20px;
+    position: absolute;
+    width: 100%;
+    height: 85%;
+    top: 15%;
+}
+
+li {
+    line-height: 3px;
+}
+
+pre {
+    font-size: 24px;
+}
