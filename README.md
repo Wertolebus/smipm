@@ -3,19 +3,5 @@ A simple script created for monitoring Steam prices. Made for personal use to ke
 
 # How to run
 ```bash
-python smipm -mode
+python smipm.py
 ```
-
-Available modes:
-`-tui` -> terminal user interface
-`-web` -> web dashboard (not implemented)
-
-# TODO list
-
-| TODO          | Implemented         |
-|---------------|---------------------|
-| Web dashboard |                     |
-| Only web      |                     |
-|               | TUI                 |
-|               | Backend             |
-|               | JSON file exporting |
