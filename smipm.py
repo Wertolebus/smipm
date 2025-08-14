@@ -1,13 +1,12 @@
 import asyncio
 from argparse import ArgumentParser
 from ui.tui import tui
-from ui.gui import gui
 from backend.exporter import Exporter
 from backend.scraper import Item
 
 p = ArgumentParser()
 t = p.add_mutually_exclusive_group(required=True)
-t.add_argument("-gui", action="store_true")
+t.add_argument("-web", action="store_true")
 t.add_argument("-tui", action="store_true")
 args = p.parse_args()
 
@@ -40,7 +39,7 @@ async def main():
             console_display()
         )
 
-    if args.gui:
+    if args.web:
         gui()
 
 asyncio.run(main())
