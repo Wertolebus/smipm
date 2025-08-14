@@ -1,13 +1,15 @@
 from datetime import datetime
 from backend.scraper import get_item_price, Item, Data
+from pprint import pprint as pp
+import logging
 import json, pathlib
 
-
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 class Exporter():
     def __init__(self):
         self.items    = []
-        self.path     = pathlib.Path().home() / "Desktop"
+        self.path     = pathlib.Path('.')
         self.filename = "test.json"
 
     def append_item(self, item : Item):
@@ -43,11 +45,18 @@ class Exporter():
         jdata = self.load_json()
         dt = datetime.now()
         time = dt.strftime("%H:%M:%S")
+        date = dt.strftime("%d.%m.%Y")
         items_data : list[Data]= self.get_data_from_list()
+
+        if not date in jdata:
+            jdata[date] = {}
+
         if not time in jdata:
-            jdata[time] = []
+            jdata[date][time] = []
+
         for item in items_data:
-            jdata[time].append(item.to_dict())
+            jdata[date][time].append(item.to_dict())
+
         if pathlib.Path(self.path / self.filename).is_file():
             f = open(self.path / self.filename, 'w', encoding='utf8')
             json.dump(jdata, f, ensure_ascii=False, indent=2)
@@ -58,5 +67,15 @@ class Exporter():
     
     def get_2_last_records(self):
         data = self.load_json()
+        dt = datetime.now()
+        date = dt.strftime("%d.%m.%Y")
 
-        return (list(data)[0], data[list(data)[-1]], data[list(data)[-2]]) if len(data) > 0 else (-1, -1, -1)
+        data = data[date]
+
+        return (
+            list(data)[0], 
+            data[list(data)[-1]], 
+            data[list(data)[-2]] if len(list(data)) >= 2 else data[list(data)[-1]]
+            )                       \
+                if len(data) > 0    \
+                else (-1, -1, -1)
