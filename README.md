@@ -8,14 +8,12 @@ python smipm -mode
 
 Available modes:
 `-tui` -> terminal user interface
-`-gui` -> graphical user interface (not implemented)
 `-web` -> web dashboard (not implemented)
 
 # TODO list
 
 | TODO          | Implemented         |
 |---------------|---------------------|
-| GUI           |                     |
 | Web dashboard |                     |
 |               | TUI                 |
 |               | Backend             |
