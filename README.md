@@ -15,6 +15,7 @@ Available modes:
 | TODO          | Implemented         |
 |---------------|---------------------|
 | Web dashboard |                     |
+| Only web      |                     |
 |               | TUI                 |
 |               | Backend             |
 |               | JSON file exporting |

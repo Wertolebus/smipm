@@ -1,14 +1,8 @@
 import asyncio
-from argparse import ArgumentParser
-from ui.tui import tui
 from backend.exporter import Exporter
 from backend.scraper import Item
-
-p = ArgumentParser()
-t = p.add_mutually_exclusive_group(required=True)
-t.add_argument("-web", action="store_true")
-t.add_argument("-tui", action="store_true")
-args = p.parse_args()
+from ui.web.app import web_run
+import threading
 
 items = [
     Item("Fracture Case", 176185874),
@@ -19,27 +13,18 @@ items = [
     Item("Dreams & Nightmares Case", 176288467),
     Item("Gallery Case", 176460428),
 ]
+
 e = Exporter()
 e.extend_item(items)
 
-async def periodic_function():
+async def periodic_scrape():
     while True:
         e.export()
         await asyncio.sleep(5)
 
-async def console_display():
-    while True:
-        tui()
-        await asyncio.sleep(1)
-
 async def main():
-    if args.tui:
-        await asyncio.gather(
-            periodic_function(),
-            console_display()
-        )
-
-    if args.web:
-        gui()
+    t = threading.Thread(target=web_run, daemon=True)
+    t.start()
+    await periodic_scrape()
 
 asyncio.run(main())
